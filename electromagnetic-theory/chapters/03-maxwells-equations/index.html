@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 3 — Maxwell's Equations | EM Theory</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/math.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script src="../../assets/js/theme.js"></script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div style="display:flex;align-items:center;gap:0.8rem;">
+      <button id="sidebar-toggle" class="btn btn-icon" aria-label="Toggle sidebar">☰</button>
+      <a href="../../index.html" class="logo" aria-label="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        EM Theory
+      </a>
+    </div>
+    <div class="header-controls">
+      <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle theme">☀️</button>
+    </div>
+  </header>
+
+  <nav class="sidebar" role="navigation" aria-label="Chapter navigation">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Chapters</div>
+      <div class="sidebar-nav">
+        <a href="../01-electrostatics/index.html"><span class="chapter-number">1</span> Electrostatics</a>
+        <a href="../02-magnetostatics/index.html"><span class="chapter-number">2</span> Magnetostatics</a>
+        <a href="../03-maxwells-equations/index.html" class="active"><span class="chapter-number">3</span> Maxwell's Equations</a>
+        <a href="../04-plane-waves/index.html"><span class="chapter-number">4</span> Plane Waves</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">On This Page</div>
+      <div class="sidebar-nav">
+        <a href="#four-equations">The Four Equations</a>
+        <a href="#faraday">Faraday's Law</a>
+        <a href="#displacement">Displacement Current</a>
+        <a href="#matter">Equations in Matter</a>
+        <a href="#wave-eq">Wave Equation</a>
+        <a href="#poynting">Poynting's Theorem</a>
+        <a href="#phasor">Phasor Form</a>
+        <a href="#boundary">Boundary Conditions</a>
+        <a href="#sim-dashboard">Sim: Dashboard</a>
+        <a href="#sim-faraday">Sim: Faraday</a>
+        <a href="#sim-poynting">Sim: Poynting Vector</a>
+        <a href="#quick-ref">Quick Reference</a>
+      </div>
+    </div>
+  </nav>
+
+  <aside class="right-toc" aria-label="Table of contents">
+    <div class="right-toc-title">Contents</div>
+    <a href="#four-equations">Four Equations</a>
+    <a href="#faraday">Faraday's Law</a>
+    <a href="#displacement">Displacement Current</a>
+    <a href="#matter">In Matter</a>
+    <a href="#wave-eq">Wave Equation</a>
+    <a href="#poynting">Poynting's Theorem</a>
+    <a href="#phasor">Phasor Form</a>
+    <a href="#boundary">Boundary Conditions</a>
+    <a href="#sim-dashboard">Simulations</a>
+    <a href="#quick-ref">Quick Reference</a>
+  </aside>
+
+  <div class="main-content">
+    <div class="chapter-hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-overlay"></div>
+      <div class="hero-text">
+        <h1>Chapter 3 — Maxwell's Equations</h1>
+        <p class="subtitle">The complete, unified framework of classical electromagnetism</p>
+      </div>
+    </div>
+
+    <!-- ========================= FOUR EQUATIONS ========================= -->
+    <section id="four-equations">
+      <h2>3.1 The Four Maxwell Equations</h2>
+      <p>Maxwell's equations are the foundation of all classical electromagnetic phenomena. In their most general form:</p>
+
+      <div class="equation-box gold">
+        <span class="eq-label">Gauss (E)</span>
+        $$\nabla\cdot\mathbf{E} = \frac{\rho}{\varepsilon_0} \qquad \oint\mathbf{E}\cdot d\mathbf{A} = \frac{Q_{\text{enc}}}{\varepsilon_0}$$
+      </div>
+      <p><strong>Physical meaning:</strong> Electric charges are sources of electric field lines. Positive charges emit field lines; negative charges absorb them.</p>
+
+      <div class="equation-box gold">
+        <span class="eq-label">Gauss (B)</span>
+        $$\nabla\cdot\mathbf{B} = 0 \qquad \oint\mathbf{B}\cdot d\mathbf{A} = 0$$
+      </div>
+      <p><strong>Physical meaning:</strong> No magnetic monopoles. Magnetic field lines always close on themselves.</p>
+
+      <div class="equation-box gold">
+        <span class="eq-label">Faraday</span>
+        $$\nabla\times\mathbf{E} = -\frac{\partial\mathbf{B}}{\partial t} \qquad \oint\mathbf{E}\cdot d\mathbf{l} = -\frac{d\Phi_B}{dt}$$
+      </div>
+      <p><strong>Physical meaning:</strong> A changing magnetic field induces an electric field (electromagnetic induction).</p>
+
+      <div class="equation-box gold">
+        <span class="eq-label">Ampère–Maxwell</span>
+        $$\nabla\times\mathbf{B} = \mu_0\mathbf{J} + \mu_0\varepsilon_0\frac{\partial\mathbf{E}}{\partial t} \qquad \oint\mathbf{B}\cdot d\mathbf{l} = \mu_0 I_{\text{enc}} + \mu_0\varepsilon_0\frac{d\Phi_E}{dt}$$
+      </div>
+      <p><strong>Physical meaning:</strong> Magnetic fields are produced by electric currents and by changing electric fields (displacement current).</p>
+    </section>
+
+    <!-- ========================= FARADAY ========================= -->
+    <section id="faraday">
+      <h2>3.2 Faraday's Law — Full Treatment</h2>
+      <p>Michael Faraday discovered (1831) that a changing magnetic flux through a circuit induces an electromotive force (EMF):</p>
+      <div class="equation-box">
+        $$\mathcal{E} = -\frac{d\Phi_B}{dt} = -\frac{d}{dt}\int_S\mathbf{B}\cdot d\mathbf{A}$$
+      </div>
+
+      <h3>Lenz's Law</h3>
+      <p>The induced current flows in a direction to oppose the change in flux that produced it (the negative sign).</p>
+
+      <h3>Motional EMF</h3>
+      <p>For a conductor moving with velocity $\mathbf{v}$ in a magnetic field:</p>
+      $$\mathcal{E} = \int(\mathbf{v}\times\mathbf{B})\cdot d\mathbf{l}$$
+
+      <h3>Transformer EMF</h3>
+      <p>For a stationary loop in a time-varying $\mathbf{B}$:</p>
+      $$\mathcal{E} = -\int_S\frac{\partial\mathbf{B}}{\partial t}\cdot d\mathbf{A}$$
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Derivation of Differential Form</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content"><p>Start with $\oint\mathbf{E}\cdot d\mathbf{l} = -\frac{d}{dt}\int_S\mathbf{B}\cdot d\mathbf{A}$</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content"><p>Apply Stokes' theorem to the left side: $\int_S(\nabla\times\mathbf{E})\cdot d\mathbf{A} = -\int_S\frac{\partial\mathbf{B}}{\partial t}\cdot d\mathbf{A}$</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content"><p>Since this holds for any surface $S$:</p>$$\nabla\times\mathbf{E} = -\frac{\partial\mathbf{B}}{\partial t}$$</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= DISPLACEMENT CURRENT ========================= -->
+    <section id="displacement">
+      <h2>3.3 Displacement Current</h2>
+      <p>Maxwell realized that Ampère's law ($\nabla\times\mathbf{B} = \mu_0\mathbf{J}$) was incomplete — it violated charge conservation for time-varying fields.</p>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Maxwell's Correction — Full Derivation</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content"><p>Taking the divergence of Ampère's law: $\nabla\cdot(\nabla\times\mathbf{B}) = \mu_0\nabla\cdot\mathbf{J}$. The LHS is identically zero, but the continuity equation requires $\nabla\cdot\mathbf{J} = -\frac{\partial\rho}{\partial t} \neq 0$ in general.</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content"><p>Using Gauss's law: $\rho = \varepsilon_0\nabla\cdot\mathbf{E}$, so $\nabla\cdot\mathbf{J} + \varepsilon_0\frac{\partial}{\partial t}(\nabla\cdot\mathbf{E}) = 0$, i.e., $\nabla\cdot\left(\mathbf{J} + \varepsilon_0\frac{\partial\mathbf{E}}{\partial t}\right) = 0$.</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content"><p>Maxwell's fix: replace $\mathbf{J}$ with $\mathbf{J} + \varepsilon_0\frac{\partial\mathbf{E}}{\partial t}$. The term $\mathbf{J}_d = \varepsilon_0\frac{\partial\mathbf{E}}{\partial t}$ is the <strong>displacement current density</strong>.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p>The physical consequence: a time-varying electric field produces a magnetic field, even in the absence of conduction current. This completes the symmetry between $\mathbf{E}$ and $\mathbf{B}$ and <em>predicts electromagnetic waves</em>.</p>
+    </section>
+
+    <!-- ========================= IN MATTER ========================= -->
+    <section id="matter">
+      <h2>3.4 Maxwell's Equations in Matter</h2>
+      <p>Using auxiliary fields $\mathbf{D} = \varepsilon_0\mathbf{E} + \mathbf{P}$ and $\mathbf{H} = \frac{1}{\mu_0}\mathbf{B} - \mathbf{M}$:</p>
+      <div class="equation-box">
+        $$\nabla\cdot\mathbf{D} = \rho_f \qquad \nabla\cdot\mathbf{B} = 0$$
+        $$\nabla\times\mathbf{E} = -\frac{\partial\mathbf{B}}{\partial t} \qquad \nabla\times\mathbf{H} = \mathbf{J}_f + \frac{\partial\mathbf{D}}{\partial t}$$
+      </div>
+      <p>For linear, isotropic media: $\mathbf{D} = \varepsilon\mathbf{E}$, $\mathbf{B} = \mu\mathbf{H}$, $\mathbf{J}_f = \sigma\mathbf{E}$.</p>
+    </section>
+
+    <!-- ========================= WAVE EQUATION ========================= -->
+    <section id="wave-eq">
+      <h2>3.5 The Electromagnetic Wave Equation</h2>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Full Derivation from Maxwell's Equations</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content"><p>In free space ($\rho = 0$, $\mathbf{J} = 0$), take the curl of Faraday's law:</p>$$\nabla\times(\nabla\times\mathbf{E}) = -\frac{\partial}{\partial t}(\nabla\times\mathbf{B})$$</div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content"><p>Use vector identity: $\nabla\times(\nabla\times\mathbf{E}) = \nabla(\nabla\cdot\mathbf{E}) - \nabla^2\mathbf{E}$. Since $\nabla\cdot\mathbf{E} = 0$:</p>$$-\nabla^2\mathbf{E} = -\frac{\partial}{\partial t}(\nabla\times\mathbf{B})$$</div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content"><p>Substitute Ampère-Maxwell ($\nabla\times\mathbf{B} = \mu_0\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}$):</p>$$\nabla^2\mathbf{E} = \mu_0\varepsilon_0\frac{\partial^2\mathbf{E}}{\partial t^2}$$</div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">4</span>
+              <div class="step-content"><p>This is a <strong>wave equation</strong> with phase velocity:</p>$$v = \frac{1}{\sqrt{\mu_0\varepsilon_0}} = c \approx 3\times10^8 \text{ m/s}$$</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 3.1</span>
+        $$\nabla^2\mathbf{E} = \mu\varepsilon\frac{\partial^2\mathbf{E}}{\partial t^2}$$
+      </div>
+      <p>An identical equation holds for $\mathbf{B}$. Light is an electromagnetic wave — one of the most profound discoveries in physics.</p>
+    </section>
+
+    <!-- ========================= POYNTING ========================= -->
+    <section id="poynting">
+      <h2>3.6 Poynting's Theorem</h2>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Derivation</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content"><p>Dot Faraday's law with $\mathbf{H}$ and the Ampère-Maxwell law with $\mathbf{E}$, then subtract:</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content"><p>$\mathbf{H}\cdot(\nabla\times\mathbf{E}) - \mathbf{E}\cdot(\nabla\times\mathbf{H}) = -\nabla\cdot(\mathbf{E}\times\mathbf{H})$</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content"><p>After substitution:</p>$$-\nabla\cdot(\mathbf{E}\times\mathbf{H}) = \mathbf{J}\cdot\mathbf{E} + \frac{\partial}{\partial t}\left(\frac{1}{2}\varepsilon E^2 + \frac{1}{2}\mu H^2\right)$$</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p>The <strong>Poynting vector</strong> describes the direction and rate of energy flow:</p>
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 3.2</span>
+        $$\mathbf{S} = \mathbf{E}\times\mathbf{H}$$
+      </div>
+      <p>Units: W/m². Poynting's theorem in integral form:</p>
+      $$-\oint_S\mathbf{S}\cdot d\mathbf{A} = \int_V\mathbf{J}\cdot\mathbf{E}\,dV + \frac{d}{dt}\int_V\left(\frac{1}{2}\varepsilon E^2 + \frac{1}{2\mu}B^2\right)dV$$
+      <p>Power flowing out = Power dissipated + Rate of energy storage change.</p>
+    </section>
+
+    <!-- ========================= PHASOR ========================= -->
+    <section id="phasor">
+      <h2>3.7 Time-Harmonic (Phasor) Form</h2>
+      <p>For sinusoidal steady-state, replace $\frac{\partial}{\partial t} \to j\omega$. Fields become complex phasors:</p>
+      <div class="equation-box">
+        $$\nabla\times\tilde{\mathbf{E}} = -j\omega\mu\tilde{\mathbf{H}} \qquad \nabla\times\tilde{\mathbf{H}} = (j\omega\varepsilon + \sigma)\tilde{\mathbf{E}}$$
+      </div>
+      <p>Complex permittivity: $\varepsilon_c = \varepsilon' - j\varepsilon'' = \varepsilon - j\frac{\sigma}{\omega}$. The loss tangent: $\tan\delta = \frac{\varepsilon''}{\varepsilon'} = \frac{\sigma}{\omega\varepsilon}$.</p>
+    </section>
+
+    <!-- ========================= BOUNDARY CONDITIONS ========================= -->
+    <section id="boundary">
+      <h2>3.8 Boundary Conditions</h2>
+      <p>At the interface between two media, derived from the integral forms:</p>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Derivation of All Four Conditions</button>
+        <div class="collapsible-content">
+          <p><strong>1. Normal D:</strong> Apply Gauss's law for $\mathbf{D}$ to a thin pillbox straddling the interface:</p>
+          $$D_{1n} - D_{2n} = \rho_s$$
+          <p><strong>2. Normal B:</strong> Apply Gauss's law for $\mathbf{B}$:</p>
+          $$B_{1n} = B_{2n}$$
+          <p><strong>3. Tangential E:</strong> Apply Faraday's law to a thin loop:</p>
+          $$E_{1t} = E_{2t}$$
+          <p><strong>4. Tangential H:</strong> Apply Ampère's law:</p>
+          $$\hat{\mathbf{n}}\times(\mathbf{H}_1 - \mathbf{H}_2) = \mathbf{K}$$
+          <p>where $\mathbf{K}$ is the surface current density. If $\mathbf{K} = 0$: $H_{1t} = H_{2t}$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================== SIMULATIONS ================== -->
+    <h2 style="margin-top:3rem;">Interactive Simulations</h2>
+
+    <!-- SIM 1: Maxwell Dashboard -->
+    <section id="sim-dashboard">
+      <div class="sim-container" id="dashboard-sim">
+        <div class="sim-header">
+          <h4>📐 Maxwell's Equations Dashboard</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm" id="dash-form-toggle">Show: Differential</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-dashboard" aria-label="Maxwell equations dashboard"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 2: Faraday Induction -->
+    <section id="sim-faraday">
+      <div class="sim-container" id="faraday-sim">
+        <div class="sim-header">
+          <h4>⚡ Faraday Induction Simulator</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-faraday" aria-label="Faraday induction simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Loop Velocity</label>
+            <input type="range" id="faraday-vel" min="0.5" max="5" value="2" step="0.1">
+            <span class="param-value" id="faraday-vel-val">2.0</span>
+          </div>
+          <div class="sim-param">
+            <label>B Gradient</label>
+            <input type="range" id="faraday-grad" min="0.5" max="5" value="2" step="0.1">
+            <span class="param-value" id="faraday-grad-val">2.0</span>
+          </div>
+          <div class="sim-param">
+            <label>Induced EMF</label>
+            <span class="param-value" id="faraday-emf-val">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 3: Poynting Vector Flow -->
+    <section id="sim-poynting">
+      <div class="sim-container" id="poynting-sim">
+        <div class="sim-header">
+          <h4>⚡ Poynting Vector Flow</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-poynting" aria-label="Poynting vector simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Frequency</label>
+            <input type="range" id="poynting-freq" min="0.5" max="5" value="2" step="0.1">
+            <span class="param-value" id="poynting-freq-val">2.0</span>
+          </div>
+          <div class="sim-param">
+            <label>Amplitude</label>
+            <input type="range" id="poynting-amp" min="0.5" max="3" value="1.5" step="0.1">
+            <span class="param-value" id="poynting-amp-val">1.5</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= QUICK REFERENCE ========================= -->
+    <section id="quick-ref">
+      <div class="quick-ref">
+        <h3>📋 Quick Reference — Maxwell's Equations</h3>
+        <div class="quick-ref-grid">
+          <div class="quick-ref-item">
+            <div class="label">Gauss (E)</div>
+            <div>$\nabla\cdot\mathbf{E} = \rho/\varepsilon_0$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Gauss (B)</div>
+            <div>$\nabla\cdot\mathbf{B} = 0$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Faraday</div>
+            <div>$\nabla\times\mathbf{E} = -\partial\mathbf{B}/\partial t$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Ampère-Maxwell</div>
+            <div>$\nabla\times\mathbf{B} = \mu_0\mathbf{J} + \mu_0\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Wave Equation</div>
+            <div>$\nabla^2\mathbf{E} = \mu\varepsilon\frac{\partial^2\mathbf{E}}{\partial t^2}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Poynting Vector</div>
+            <div>$\mathbf{S} = \mathbf{E}\times\mathbf{H}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Speed of Light</div>
+            <div>$c = 1/\sqrt{\mu_0\varepsilon_0}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Displacement Current</div>
+            <div>$\mathbf{J}_d = \varepsilon_0\frac{\partial\mathbf{E}}{\partial t}$</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div style="display:flex;justify-content:space-between;margin:2rem 0;">
+      <a href="../02-magnetostatics/index.html" class="btn">← Magnetostatics</a>
+      <a href="../04-plane-waves/index.html" class="btn btn-primary">Next: Plane Waves →</a>
+    </div>
+
+    <footer class="site-footer"><p>Electromagnetic Theory — Interactive Textbook</p></footer>
+  </div>
+
+  <script src="../../assets/js/simulations.js"></script>
+  <script src="../../assets/js/nav.js"></script>
+  <script src="sim/faraday.js"></script>
+  <script src="sim/em-coupling.js"></script>
+  <script>
+    /* Hero canvas - E and B waves */
+    (function () {
+      var canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      var ctx, W, H;
+      function resize() {
+        var rect = canvas.parentElement.getBoundingClientRect();
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        W = rect.width; H = rect.height;
+        ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+      }
+      resize(); window.addEventListener('resize', resize);
+
+      SimUtils.createLoop(function (dt) {
+        ctx.clearRect(0, 0, W, H);
+        var t = Date.now() * 0.002;
+        var cy = H / 2;
+        // E
+        ctx.beginPath();
+        for (var x = 0; x < W; x += 2) {
+          var y = cy + 50 * Math.sin(x * 0.02 - t);
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = 'rgba(79,195,247,0.4)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        // B
+        ctx.beginPath();
+        for (var x = 0; x < W; x += 2) {
+          var y = cy + 50 * Math.cos(x * 0.02 - t);
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = 'rgba(255,213,79,0.3)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      });
+    })();
+
+    /* Dashboard simulation */
+    (function () {
+      var canvas = document.getElementById('canvas-dashboard');
+      if (!canvas) return;
+      var info = SimUtils.initCanvas(canvas);
+      var ctx = info.ctx, W = info.w, H = info.h;
+
+      var showDiff = true;
+      var formToggle = document.getElementById('dash-form-toggle');
+      if (formToggle) formToggle.addEventListener('click', function () {
+        showDiff = !showDiff;
+        this.textContent = 'Show: ' + (showDiff ? 'Differential' : 'Integral');
+        draw();
+      });
+
+      var equations = {
+        diff: [
+          { name: "Gauss's Law (E)", eq: "∇·E = ρ/ε₀", color: '#4fc3f7', meaning: 'Charges create E fields' },
+          { name: "Gauss's Law (B)", eq: "∇·B = 0", color: '#66bb6a', meaning: 'No magnetic monopoles' },
+          { name: "Faraday's Law", eq: "∇×E = −∂B/∂t", color: '#ffd54f', meaning: 'Changing B induces E' },
+          { name: "Ampère-Maxwell", eq: "∇×B = μ₀J + μ₀ε₀∂E/∂t", color: '#ef5350', meaning: 'Currents + changing E create B' }
+        ],
+        integral: [
+          { name: "Gauss's Law (E)", eq: "∮E·dA = Q/ε₀", color: '#4fc3f7', meaning: 'Flux ~ enclosed charge' },
+          { name: "Gauss's Law (B)", eq: "∮B·dA = 0", color: '#66bb6a', meaning: 'Net magnetic flux = 0' },
+          { name: "Faraday's Law", eq: "∮E·dl = −dΦ_B/dt", color: '#ffd54f', meaning: 'EMF from changing flux' },
+          { name: "Ampère-Maxwell", eq: "∮B·dl = μ₀I + μ₀ε₀dΦ_E/dt", color: '#ef5350', meaning: 'B from current + displacement' }
+        ]
+      };
+
+      var animT = 0;
+      function draw() {
+        animT += 0.02;
+        ctx.clearRect(0, 0, W, H);
+
+        var eqs = showDiff ? equations.diff : equations.integral;
+        var cardW = (W - 60) / 2;
+        var cardH = (H - 60) / 2;
+
+        eqs.forEach(function (eq, i) {
+          var col = i % 2;
+          var row = Math.floor(i / 2);
+          var x = 20 + col * (cardW + 20);
+          var y = 20 + row * (cardH + 20);
+
+          // Card background
+          ctx.fillStyle = 'rgba(255,255,255,0.03)';
+          ctx.strokeStyle = eq.color + '60';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(x, y, cardW, cardH, 10);
+          ctx.fill();
+          ctx.stroke();
+
+          // Animated glow
+          var glowAlpha = 0.05 + 0.03 * Math.sin(animT * 2 + i);
+          ctx.fillStyle = eq.color + Math.round(glowAlpha * 255).toString(16).padStart(2, '0');
+          ctx.beginPath();
+          ctx.roundRect(x, y, cardW, cardH, 10);
+          ctx.fill();
+
+          // Name
+          ctx.font = 'bold 11px Inter';
+          ctx.fillStyle = eq.color;
+          ctx.textAlign = 'left';
+          ctx.fillText(eq.name, x + 15, y + 25);
+
+          // Equation
+          ctx.font = '16px JetBrains Mono';
+          ctx.fillStyle = '#e8eaf6';
+          ctx.textAlign = 'center';
+          ctx.fillText(eq.eq, x + cardW / 2, y + cardH / 2);
+
+          // Meaning
+          ctx.font = '11px Inter';
+          ctx.fillStyle = 'rgba(255,255,255,0.4)';
+          ctx.textAlign = 'center';
+          ctx.fillText(eq.meaning, x + cardW / 2, y + cardH - 15);
+        });
+
+        // Title
+        ctx.font = 'bold 14px Inter';
+        ctx.fillStyle = '#e8eaf6';
+        ctx.textAlign = 'center';
+        ctx.fillText(showDiff ? 'Differential Form' : 'Integral Form', W / 2, 14);
+      }
+
+      SimUtils.createLoop(function () { draw(); });
+
+      window.addEventListener('resize', function () {
+        info = SimUtils.initCanvas(canvas);
+        ctx = info.ctx; W = info.w; H = info.h;
+      });
+    })();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+</body>
+</html>

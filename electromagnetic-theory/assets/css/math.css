@@ -1,0 +1,38 @@
+/* ============================================================
+   KaTeX / Math Styling
+   ============================================================ */
+
+/* Auto-render delimiters inline/block */
+.katex-display {
+  margin: 1em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}
+
+.katex {
+  font-size: 1.15em;
+}
+
+.katex-display > .katex {
+  font-size: 1.3em;
+}
+
+/* Equation number */
+.eq-numbered {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.eq-numbered .eq-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Inline equation highlight on hover */
+.katex-html:hover {
+  opacity: 0.85;
+}

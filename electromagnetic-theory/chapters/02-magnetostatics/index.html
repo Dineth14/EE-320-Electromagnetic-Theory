@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 2 — Magnetostatics | EM Theory</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/math.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script src="../../assets/js/theme.js"></script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div style="display:flex;align-items:center;gap:0.8rem;">
+      <button id="sidebar-toggle" class="btn btn-icon" aria-label="Toggle sidebar">☰</button>
+      <a href="../../index.html" class="logo" aria-label="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        EM Theory
+      </a>
+    </div>
+    <div class="header-controls">
+      <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle theme">☀️</button>
+    </div>
+  </header>
+
+  <nav class="sidebar" role="navigation" aria-label="Chapter navigation">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Chapters</div>
+      <div class="sidebar-nav">
+        <a href="../01-electrostatics/index.html"><span class="chapter-number">1</span> Electrostatics</a>
+        <a href="../02-magnetostatics/index.html" class="active"><span class="chapter-number">2</span> Magnetostatics</a>
+        <a href="../03-maxwells-equations/index.html"><span class="chapter-number">3</span> Maxwell's Equations</a>
+        <a href="../04-plane-waves/index.html"><span class="chapter-number">4</span> Plane Waves</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">On This Page</div>
+      <div class="sidebar-nav">
+        <a href="#lorentz">Lorentz Force</a>
+        <a href="#biot-savart">Biot-Savart Law</a>
+        <a href="#ampere">Ampère's Law</a>
+        <a href="#divB">∇·B = 0</a>
+        <a href="#vector-potential">Vector Potential A</a>
+        <a href="#dipole">Magnetic Dipole</a>
+        <a href="#materials">Magnetic Materials</a>
+        <a href="#inductance">Inductance</a>
+        <a href="#sim-biot">Sim: Biot-Savart</a>
+        <a href="#sim-dipole">Sim: Dipole 3D</a>
+        <a href="#sim-particle">Sim: Charged Particle</a>
+        <a href="#quick-ref">Quick Reference</a>
+      </div>
+    </div>
+  </nav>
+
+  <aside class="right-toc" aria-label="Table of contents">
+    <div class="right-toc-title">Contents</div>
+    <a href="#lorentz">Lorentz Force</a>
+    <a href="#biot-savart">Biot-Savart Law</a>
+    <a href="#ampere">Ampère's Law</a>
+    <a href="#divB">∇·B = 0</a>
+    <a href="#vector-potential">Vector Potential</a>
+    <a href="#dipole">Magnetic Dipole</a>
+    <a href="#materials">Materials</a>
+    <a href="#inductance">Inductance</a>
+    <a href="#sim-biot">Simulations</a>
+    <a href="#quick-ref">Quick Reference</a>
+  </aside>
+
+  <div class="main-content">
+    <!-- Hero -->
+    <div class="chapter-hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-overlay"></div>
+      <div class="hero-text">
+        <h1>Chapter 2 — Magnetostatics</h1>
+        <p class="subtitle">Steady currents, the magnetic fields they produce, and magnetic energy</p>
+      </div>
+    </div>
+
+    <!-- ========================= LORENTZ FORCE ========================= -->
+    <section id="lorentz">
+      <h2>2.1 Magnetic Force on Moving Charges</h2>
+      <p>A charge $q$ moving with velocity $\mathbf{v}$ in a magnetic field $\mathbf{B}$ experiences the <em>Lorentz force</em>:</p>
+      <div class="equation-box">
+        <span class="eq-label">Eq. 2.1</span>
+        $$\mathbf{F} = q\mathbf{v}\times\mathbf{B}$$
+      </div>
+      <p>This force is always perpendicular to both $\mathbf{v}$ and $\mathbf{B}$, meaning it does no work (only changes direction, not speed).</p>
+
+      <h3>Cyclotron Motion</h3>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Derivation of Cyclotron Radius and Frequency</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content">
+                <p>For a particle moving perpendicular to a uniform $\mathbf{B} = B\hat{\mathbf{z}}$, the magnetic force provides centripetal acceleration:</p>
+                $$qvB = \frac{mv^2}{r}$$
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content">
+                <p>Solving for the <strong>cyclotron radius</strong>:</p>
+                $$r_c = \frac{mv}{qB}$$
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content">
+                <p>The <strong>cyclotron frequency</strong> (independent of speed):</p>
+                $$\omega_c = \frac{qB}{m}, \qquad f_c = \frac{qB}{2\pi m}$$
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>If there is also a component of velocity along $\mathbf{B}$, the particle traces a <strong>helix</strong>.</p>
+    </section>
+
+    <!-- ========================= BIOT-SAVART ========================= -->
+    <section id="biot-savart">
+      <h2>2.2 Biot-Savart Law</h2>
+      <p>The magnetic field produced by a steady current element $Id\mathbf{l}$ at a point $\mathbf{r}$ is:</p>
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 2.2</span>
+        $$d\mathbf{B} = \frac{\mu_0}{4\pi}\frac{I\,d\mathbf{l}\times\hat{\mathbf{r}}'}{|\mathbf{r}'|^2}$$
+      </div>
+      <p>where $\mu_0 = 4\pi\times10^{-7}$ T·m/A is the permeability of free space.</p>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Application: Infinite Straight Wire</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content"><p>Place wire along $z$-axis carrying current $I$. Find $\mathbf{B}$ at distance $s$ from wire.</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content"><p>By symmetry and integration: $d\mathbf{l} = dz\,\hat{\mathbf{z}}$, $\hat{\mathbf{r}}' = \frac{s\hat{\mathbf{s}} - z\hat{\mathbf{z}}}{\sqrt{s^2 + z^2}}$</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content">
+                <p>After integration over $z \in (-\infty, \infty)$:</p>
+                $$\mathbf{B} = \frac{\mu_0 I}{2\pi s}\hat{\boldsymbol{\phi}}$$
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Application: Circular Loop (on axis)</button>
+        <div class="collapsible-content">
+          <p>For a circular loop of radius $R$ carrying current $I$, the field on the axis at distance $z$:</p>
+          $$B_z = \frac{\mu_0 I R^2}{2(R^2 + z^2)^{3/2}}$$
+          <p>At the center ($z = 0$): $B = \frac{\mu_0 I}{2R}$.</p>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Application: Solenoid</button>
+        <div class="collapsible-content">
+          <p>An ideal solenoid with $n$ turns per unit length. Inside: $\mathbf{B} = \mu_0 n I\,\hat{\mathbf{z}}$ (uniform). Outside: $\mathbf{B} \approx 0$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= AMPERE'S LAW ========================= -->
+    <section id="ampere">
+      <h2>2.3 Ampère's Law</h2>
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 2.3</span>
+        $$\oint \mathbf{B}\cdot d\mathbf{l} = \mu_0 I_{\text{enc}}$$
+      </div>
+      <p>In differential form (using Stokes' theorem):</p>
+      <div class="equation-box">
+        $$\nabla\times\mathbf{B} = \mu_0\mathbf{J}$$
+      </div>
+      <p>Ampère's law is most useful when symmetry allows $\mathbf{B}$ to be factored out of the integral (infinite wire, solenoid, toroid).</p>
+    </section>
+
+    <!-- ========================= DIV B = 0 ========================= -->
+    <section id="divB">
+      <h2>2.4 Gauss's Law for Magnetism</h2>
+      <div class="equation-box">
+        <span class="eq-label">Eq. 2.4</span>
+        $$\nabla\cdot\mathbf{B} = 0 \qquad \Longleftrightarrow \qquad \oint\mathbf{B}\cdot d\mathbf{A} = 0$$
+      </div>
+      <p>There are no magnetic monopoles. Magnetic field lines always form <em>closed loops</em>. The net magnetic flux through any closed surface is zero.</p>
+    </section>
+
+    <!-- ========================= VECTOR POTENTIAL ========================= -->
+    <section id="vector-potential">
+      <h2>2.5 Vector Magnetic Potential <strong>A</strong></h2>
+      <p>Since $\nabla\cdot\mathbf{B} = 0$, we can write $\mathbf{B} = \nabla\times\mathbf{A}$ for some vector potential $\mathbf{A}$.</p>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Derivation</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content"><p>From $\nabla\times\mathbf{B} = \mu_0\mathbf{J}$ and $\mathbf{B} = \nabla\times\mathbf{A}$:</p>
+              $$\nabla\times(\nabla\times\mathbf{A}) = \mu_0\mathbf{J}$$</div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content"><p>Using vector identity: $\nabla(\nabla\cdot\mathbf{A}) - \nabla^2\mathbf{A} = \mu_0\mathbf{J}$.</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content"><p>In the Coulomb gauge ($\nabla\cdot\mathbf{A} = 0$):</p>
+              $$\nabla^2\mathbf{A} = -\mu_0\mathbf{J}$$
+              <p>This is a vector Poisson equation, with solution:</p>
+              $$\mathbf{A}(\mathbf{r}) = \frac{\mu_0}{4\pi}\int \frac{\mathbf{J}(\mathbf{r}')}{|\mathbf{r}-\mathbf{r}'|}\,d\tau'$$</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= MAGNETIC DIPOLE ========================= -->
+    <section id="dipole">
+      <h2>2.6 Magnetic Dipole</h2>
+      <p>The <strong>magnetic dipole moment</strong> of a current loop of area $A$ carrying current $I$ is:</p>
+      <div class="equation-box">
+        $$\mathbf{m} = I\mathbf{A} = IA\hat{\mathbf{n}}$$
+      </div>
+
+      <h3>Torque on a Dipole</h3>
+      $$\boldsymbol{\tau} = \mathbf{m}\times\mathbf{B}$$
+
+      <h3>Potential Energy</h3>
+      $$U = -\mathbf{m}\cdot\mathbf{B}$$
+
+      <h3>Dipole Field (far field)</h3>
+      <p>At large distances from a magnetic dipole:</p>
+      <div class="equation-box">
+        $$\mathbf{B}_{\text{dip}} = \frac{\mu_0}{4\pi r^3}\left[3(\mathbf{m}\cdot\hat{\mathbf{r}})\hat{\mathbf{r}} - \mathbf{m}\right]$$
+      </div>
+      <p>This has the same form as the electric dipole field — both fall off as $1/r^3$.</p>
+    </section>
+
+    <!-- ========================= MATERIALS ========================= -->
+    <section id="materials">
+      <h2>2.7 Magnetic Materials</h2>
+      <p>In magnetic materials, atomic magnetic moments produce a <em>magnetization</em> $\mathbf{M}$ (magnetic moment per unit volume).</p>
+      <p>The auxiliary field $\mathbf{H}$:</p>
+      <div class="equation-box">
+        $$\mathbf{H} = \frac{1}{\mu_0}\mathbf{B} - \mathbf{M}$$
+      </div>
+      <p>For linear media: $\mathbf{M} = \chi_m\mathbf{H}$, giving $\mathbf{B} = \mu\mathbf{H}$ where $\mu = \mu_0(1 + \chi_m) = \mu_0\mu_r$.</p>
+
+      <h3>Types of Magnetism</h3>
+      <ul style="color:var(--text-secondary);margin-bottom:1em;">
+        <li><strong>Diamagnetic</strong> ($\chi_m < 0$, small): opposes applied field (e.g., copper, bismuth)</li>
+        <li><strong>Paramagnetic</strong> ($\chi_m > 0$, small): aligns with applied field (e.g., aluminum, platinum)</li>
+        <li><strong>Ferromagnetic</strong> ($\chi_m \gg 1$): strong alignment, hysteresis (e.g., iron, nickel, cobalt)</li>
+      </ul>
+
+      <h3>Hysteresis</h3>
+      <p>In ferromagnets, $\mathbf{B}$ vs $\mathbf{H}$ traces a hysteresis loop due to domain structure. Key parameters: saturation $B_s$, remanence $B_r$, coercivity $H_c$.</p>
+    </section>
+
+    <!-- ========================= INDUCTANCE ========================= -->
+    <section id="inductance">
+      <h2>2.8 Inductance</h2>
+      <h3>Self-Inductance</h3>
+      <p>The flux through a circuit due to its own current $I$: $\Phi = LI$, where $L$ is the self-inductance.</p>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Solenoid Self-Inductance Derivation</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content"><p>Inside: $B = \mu_0 nI$. Flux through one turn: $\Phi_1 = BA = \mu_0 nIA$.</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content"><p>Total flux linkage for $N = nl$ turns: $\Phi = N\Phi_1 = \mu_0 n^2 l A I$.</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content">$$L = \frac{\Phi}{I} = \mu_0 n^2 l A = \frac{\mu_0 N^2 A}{l}$$</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Mutual Inductance</h3>
+      <p>The flux through loop 2 due to current $I_1$ in loop 1: $\Phi_{21} = M_{21}I_1$. The Neumann formula gives $M_{12} = M_{21} = M$.</p>
+
+      <h3>Magnetic Energy</h3>
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 2.5</span>
+        $$U = \frac{1}{2}LI^2 = \frac{1}{2\mu_0}\int B^2\,d\tau$$
+      </div>
+      <p>Energy density in the magnetic field: $u_B = \frac{1}{2\mu_0}B^2$.</p>
+    </section>
+
+    <!-- ================== SIMULATIONS ================== -->
+    <h2 style="margin-top:3rem;">Interactive Simulations</h2>
+
+    <!-- SIM 1: Biot-Savart -->
+    <section id="sim-biot">
+      <div class="sim-container" id="biot-sim">
+        <div class="sim-header">
+          <h4>🧲 Biot-Savart Field Visualizer</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-biot" aria-label="Biot-Savart field simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Source</label>
+            <select id="biot-source">
+              <option value="wire">Infinite Wire</option>
+              <option value="loop">Circular Loop</option>
+              <option value="solenoid">Solenoid</option>
+            </select>
+          </div>
+          <div class="sim-param">
+            <label>Current (A)</label>
+            <input type="range" id="biot-current" min="1" max="20" value="10" step="1">
+            <span class="param-value" id="biot-current-val">10 A</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 2: Magnetic Dipole 3D -->
+    <section id="sim-dipole">
+      <div class="sim-container" id="dipole-sim">
+        <div class="sim-header">
+          <h4>🌐 Magnetic Dipole 3D</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="three-container" id="dipole-3d" aria-label="3D magnetic dipole field"></div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Dipole Moment</label>
+            <input type="range" id="dipole-moment" min="1" max="10" value="5" step="0.5">
+            <span class="param-value" id="dipole-moment-val">5.0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 3: Charged Particle in E and B -->
+    <section id="sim-particle">
+      <div class="sim-container" id="particle-sim">
+        <div class="sim-header">
+          <h4>⚡ Charged Particle in E & B Fields</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-particle" aria-label="Charged particle trajectory simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Bz (T)</label>
+            <input type="range" id="particle-bz" min="0" max="5" value="2" step="0.1">
+            <span class="param-value" id="particle-bz-val">2.0 T</span>
+          </div>
+          <div class="sim-param">
+            <label>Ey (V/m)</label>
+            <input type="range" id="particle-ey" min="-5" max="5" value="0" step="0.1">
+            <span class="param-value" id="particle-ey-val">0.0 V/m</span>
+          </div>
+          <div class="sim-param">
+            <label>v₀x (m/s)</label>
+            <input type="range" id="particle-vx" min="0" max="5" value="2" step="0.1">
+            <span class="param-value" id="particle-vx-val">2.0 m/s</span>
+          </div>
+          <div class="sim-param">
+            <label>v₀z (m/s)</label>
+            <input type="range" id="particle-vz" min="0" max="3" value="0" step="0.1">
+            <span class="param-value" id="particle-vz-val">0.0 m/s</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= QUICK REFERENCE ========================= -->
+    <section id="quick-ref">
+      <div class="quick-ref">
+        <h3>📋 Quick Reference — Magnetostatics</h3>
+        <div class="quick-ref-grid">
+          <div class="quick-ref-item">
+            <div class="label">Lorentz Force</div>
+            <div>$\mathbf{F} = q\mathbf{v}\times\mathbf{B}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Biot-Savart Law</div>
+            <div>$d\mathbf{B} = \frac{\mu_0}{4\pi}\frac{Id\mathbf{l}\times\hat{\mathbf{r}}'}{r'^2}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Ampère's Law</div>
+            <div>$\oint\mathbf{B}\cdot d\mathbf{l} = \mu_0 I_{\text{enc}}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">No Monopoles</div>
+            <div>$\nabla\cdot\mathbf{B} = 0$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Infinite Wire</div>
+            <div>$B = \frac{\mu_0 I}{2\pi s}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Solenoid</div>
+            <div>$B = \mu_0 n I$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Energy Density</div>
+            <div>$u_B = \frac{B^2}{2\mu_0}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Cyclotron Radius</div>
+            <div>$r_c = \frac{mv}{qB}$</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div style="display:flex;justify-content:space-between;margin:2rem 0;">
+      <a href="../01-electrostatics/index.html" class="btn">← Electrostatics</a>
+      <a href="../03-maxwells-equations/index.html" class="btn btn-primary">Next: Maxwell's Equations →</a>
+    </div>
+
+    <footer class="site-footer"><p>Electromagnetic Theory — Interactive Textbook</p></footer>
+  </div>
+
+  <script src="../../assets/js/simulations.js"></script>
+  <script src="../../assets/js/nav.js"></script>
+  <script src="sim/biot-savart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    (function(){
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js';
+      s.onload = function() {
+        var s2 = document.createElement('script');
+        s2.src = 'sim/magnetic-dipole.js';
+        document.body.appendChild(s2);
+      };
+      document.body.appendChild(s);
+    })();
+  </script>
+  <script src="sim/charged-particle.js"></script>
+  <script>
+    /* Hero canvas - circular B field lines */
+    (function () {
+      var canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      var ctx, W, H;
+      function resize() {
+        var rect = canvas.parentElement.getBoundingClientRect();
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        W = rect.width; H = rect.height;
+        ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+      }
+      resize(); window.addEventListener('resize', resize);
+
+      SimUtils.createLoop(function (dt) {
+        ctx.clearRect(0, 0, W, H);
+        var cx = W * 0.5, cy = H * 0.5;
+        var t = Date.now() * 0.001;
+        for (var r = 20; r < 180; r += 25) {
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(79,195,247,' + (0.3 - r / 700) + ')';
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([6, 6]);
+          ctx.lineDashOffset = -t * 40;
+          ctx.stroke();
+          ctx.setLineDash([]);
+          var angle = t * 1.5 + r * 0.05;
+          var ax = cx + r * Math.cos(angle);
+          var ay = cy + r * Math.sin(angle);
+          ctx.beginPath();
+          ctx.arc(ax, ay, 3, 0, Math.PI * 2);
+          ctx.fillStyle = '#4fc3f7';
+          ctx.fill();
+        }
+        ctx.beginPath();
+        ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffd54f';
+        ctx.fill();
+      });
+    })();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1 — Electrostatics | EM Theory</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/math.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script src="../../assets/js/theme.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div style="display:flex;align-items:center;gap:0.8rem;">
+      <button id="sidebar-toggle" class="btn btn-icon" aria-label="Toggle sidebar">☰</button>
+      <a href="../../index.html" class="logo" aria-label="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        EM Theory
+      </a>
+    </div>
+    <div class="header-controls">
+      <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle theme">☀️</button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" role="navigation" aria-label="Chapter navigation">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Chapters</div>
+      <div class="sidebar-nav">
+        <a href="../01-electrostatics/index.html" class="active"><span class="chapter-number">1</span> Electrostatics</a>
+        <a href="../02-magnetostatics/index.html"><span class="chapter-number">2</span> Magnetostatics</a>
+        <a href="../03-maxwells-equations/index.html"><span class="chapter-number">3</span> Maxwell's Equations</a>
+        <a href="../04-plane-waves/index.html"><span class="chapter-number">4</span> Plane Waves</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">On This Page</div>
+      <div class="sidebar-nav">
+        <a href="#coulomb">Coulomb's Law</a>
+        <a href="#efield">Electric Field</a>
+        <a href="#gauss">Gauss's Law</a>
+        <a href="#potential">Electric Potential</a>
+        <a href="#poisson">Poisson &amp; Laplace</a>
+        <a href="#energy">Energy in E Field</a>
+        <a href="#materials">Conductors &amp; Dielectrics</a>
+        <a href="#capacitance">Capacitance</a>
+        <a href="#sim-coulomb">Sim: Coulomb Force</a>
+        <a href="#sim-field-lines">Sim: Field Lines</a>
+        <a href="#sim-gauss">Sim: Gauss's Law</a>
+        <a href="#sim-potential">Sim: 3D Potential</a>
+        <a href="#quick-ref">Quick Reference</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Right TOC -->
+  <aside class="right-toc" aria-label="Table of contents">
+    <div class="right-toc-title">Contents</div>
+    <a href="#coulomb">Coulomb's Law</a>
+    <a href="#efield">Electric Field</a>
+    <a href="#gauss">Gauss's Law</a>
+    <a href="#potential">Electric Potential</a>
+    <a href="#poisson">Poisson & Laplace</a>
+    <a href="#energy">Energy in E Field</a>
+    <a href="#materials">Materials</a>
+    <a href="#capacitance">Capacitance</a>
+    <a href="#sim-coulomb">Simulations</a>
+    <a href="#quick-ref">Quick Reference</a>
+  </aside>
+
+  <div class="main-content">
+    <!-- Hero -->
+    <div class="chapter-hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-overlay"></div>
+      <div class="hero-text">
+        <h1>Chapter 1 — Electrostatics</h1>
+        <p class="subtitle">Charges at rest, the fields they create, and the energy they store</p>
+      </div>
+    </div>
+
+    <!-- ========================= COULOMB'S LAW ========================= -->
+    <section id="coulomb">
+      <h2>1.1 Coulomb's Law</h2>
+      <p>Charles-Augustin de Coulomb established experimentally (1785) that the force between two point charges varies directly as the product of their magnitudes and inversely as the square of the distance between them.</p>
+
+      <div class="equation-box">
+        <span class="eq-label">Eq. 1.1</span>
+        $$\mathbf{F}_{12} = \frac{1}{4\pi\varepsilon_0}\frac{q_1 q_2}{|\mathbf{r}_1 - \mathbf{r}_2|^2}\,\hat{\mathbf{r}}_{12}$$
+      </div>
+
+      <p>where $\varepsilon_0 = 8.854\times10^{-12}$ F/m is the permittivity of free space, $q_1, q_2$ are point charges (in coulombs), and $\hat{\mathbf{r}}_{12}$ is the unit vector from charge 2 to charge 1.</p>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Derivation from Experimental Observations</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content">
+                <p><strong>Observation:</strong> Coulomb used a torsion balance to measure the force between charged spheres. He found $F \propto \frac{1}{r^2}$: doubling the distance reduced the force by a factor of four.</p>
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content">
+                <p><strong>Proportionality to charges:</strong> By sharing charge (touching an identical uncharged sphere), he halved $q$ and verified $F \propto q_1 q_2$.</p>
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content">
+                <p><strong>Vector form:</strong> Forces act along the line joining the two charges. Defining $\hat{\mathbf{r}}_{12} = \frac{\mathbf{r}_1 - \mathbf{r}_2}{|\mathbf{r}_1 - \mathbf{r}_2|}$, and introducing the proportionality constant $k_e = \frac{1}{4\pi\varepsilon_0}$:</p>
+                $$\mathbf{F}_{12} = k_e \frac{q_1 q_2}{r_{12}^2}\,\hat{\mathbf{r}}_{12}$$
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Superposition Principle</h3>
+      <p>The total force on a charge $q$ due to $N$ other charges is the vector sum of individual Coulomb forces:</p>
+      <div class="equation-box">
+        <span class="eq-label">Eq. 1.2</span>
+        $$\mathbf{F} = \frac{q}{4\pi\varepsilon_0}\sum_{i=1}^{N}\frac{q_i}{|\mathbf{r}-\mathbf{r}_i|^2}\,\hat{\mathbf{r}}_i$$
+      </div>
+      <p>This linearity is fundamental — it means electromagnetic fields obey the principle of superposition, allowing us to decompose complex charge distributions into sums of point charges.</p>
+    </section>
+
+    <!-- ========================= ELECTRIC FIELD ========================= -->
+    <section id="efield">
+      <h2>1.2 Electric Field <strong>E</strong></h2>
+      <p>Rather than thinking of force at a distance, we define the <em>electric field</em> $\mathbf{E}$ as the force per unit positive test charge:</p>
+      <div class="equation-box">
+        <span class="eq-label">Eq. 1.3</span>
+        $$\mathbf{E}(\mathbf{r}) = \lim_{q_0\to 0}\frac{\mathbf{F}}{q_0} = \frac{1}{4\pi\varepsilon_0}\frac{q}{r^2}\,\hat{\mathbf{r}}$$
+      </div>
+
+      <h3>Electric Field Lines</h3>
+      <p>Field lines are curves whose tangent at every point is parallel to $\mathbf{E}$. Properties:</p>
+      <ul style="color:var(--text-secondary);margin-bottom:1em;">
+        <li>Lines begin on positive charges and end on negative charges</li>
+        <li>The density of lines is proportional to $|\mathbf{E}|$</li>
+        <li>Field lines never cross (the field is single-valued)</li>
+      </ul>
+
+      <h3>Electric Flux</h3>
+      <p>The electric flux through a surface $S$ is:</p>
+      <div class="equation-box">
+        $$\Phi_E = \int_S \mathbf{E}\cdot d\mathbf{A}$$
+      </div>
+      <p>For a closed surface, this becomes the left side of Gauss's law.</p>
+    </section>
+
+    <!-- ========================= GAUSS'S LAW ========================= -->
+    <section id="gauss">
+      <h2>1.3 Gauss's Law</h2>
+      <p>Gauss's law relates the electric flux through a closed surface to the enclosed charge:</p>
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 1.4</span>
+        $$\oint_S \mathbf{E}\cdot d\mathbf{A} = \frac{Q_{\text{enc}}}{\varepsilon_0}$$
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Full Derivation from Coulomb's Law</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content">
+                <p>Consider a single point charge $q$ at the origin. Its field is $\mathbf{E} = \frac{q}{4\pi\varepsilon_0 r^2}\hat{\mathbf{r}}$.</p>
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content">
+                <p>Place a sphere of radius $R$ centred on the charge. On this surface, $\mathbf{E}$ is radial and constant in magnitude:</p>
+                $$\oint \mathbf{E}\cdot d\mathbf{A} = E(R)\cdot 4\pi R^2 = \frac{q}{4\pi\varepsilon_0 R^2}\cdot 4\pi R^2 = \frac{q}{\varepsilon_0}$$
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content">
+                <p>By the divergence theorem, this generalizes to any closed surface and, by superposition, to any charge distribution. The result is independent of the surface shape.</p>
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">4</span>
+              <div class="step-content">
+                <p><strong>Differential form:</strong> Applying the divergence theorem $\oint \mathbf{E}\cdot d\mathbf{A} = \int_V \nabla\cdot\mathbf{E}\,dV$ and using $Q_{\text{enc}} = \int_V \rho\,dV$:</p>
+                $$\nabla\cdot\mathbf{E} = \frac{\rho}{\varepsilon_0}$$
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Applications of Gauss's Law</h3>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Uniformly Charged Sphere</button>
+        <div class="collapsible-content">
+          <p>For a sphere of total charge $Q$ and radius $a$:</p>
+          <p><strong>Outside</strong> ($r > a$): By spherical symmetry, draw a Gaussian sphere of radius $r$:</p>
+          $$E(4\pi r^2) = \frac{Q}{\varepsilon_0} \implies \mathbf{E} = \frac{Q}{4\pi\varepsilon_0 r^2}\hat{\mathbf{r}}$$
+          <p><strong>Inside</strong> ($r < a$): Only charge within radius $r$ contributes. For uniform charge density $\rho = \frac{3Q}{4\pi a^3}$:</p>
+          $$E(4\pi r^2) = \frac{\rho \cdot \frac{4}{3}\pi r^3}{\varepsilon_0} \implies \mathbf{E} = \frac{Qr}{4\pi\varepsilon_0 a^3}\hat{\mathbf{r}}$$
+        </div>
+      </div>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Infinite Cylinder (line charge λ)</button>
+        <div class="collapsible-content">
+          <p>Choose a cylindrical Gaussian surface of radius $s$ and length $L$ coaxial with the line charge. By symmetry, $\mathbf{E}$ is radial and constant on this surface:</p>
+          $$E(2\pi s L) = \frac{\lambda L}{\varepsilon_0} \implies \mathbf{E} = \frac{\lambda}{2\pi\varepsilon_0 s}\hat{\mathbf{s}}$$
+        </div>
+      </div>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Infinite Plane (surface charge σ)</button>
+        <div class="collapsible-content">
+          <p>Choose a pillbox Gaussian surface. By symmetry, $\mathbf{E}$ is perpendicular to the sheet and equal on both flat faces:</p>
+          $$2EA = \frac{\sigma A}{\varepsilon_0} \implies \mathbf{E} = \frac{\sigma}{2\varepsilon_0}\hat{\mathbf{n}}$$
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= ELECTRIC POTENTIAL ========================= -->
+    <section id="potential">
+      <h2>1.4 Electric Potential</h2>
+      <p>Since $\nabla\times\mathbf{E} = 0$ in electrostatics, $\mathbf{E}$ is conservative, and we can define a scalar potential:</p>
+      <div class="equation-box">
+        <span class="eq-label">Eq. 1.5</span>
+        $$V(\mathbf{r}) = -\int_{\mathcal{O}}^{\mathbf{r}} \mathbf{E}\cdot d\mathbf{l}$$
+      </div>
+      <p>where $\mathcal{O}$ is a reference point (usually infinity). The relation between $V$ and $\mathbf{E}$ is:</p>
+      <div class="equation-box">
+        $$\mathbf{E} = -\nabla V$$
+      </div>
+
+      <h3>Potential of a Point Charge</h3>
+      $$V(r) = \frac{1}{4\pi\varepsilon_0}\frac{q}{r}$$
+
+      <h3>Work and Energy</h3>
+      <p>The work done in moving a charge $q_0$ from $\mathbf{a}$ to $\mathbf{b}$ is:</p>
+      $$W = -q_0\int_{\mathbf{a}}^{\mathbf{b}}\mathbf{E}\cdot d\mathbf{l} = q_0[V(\mathbf{b}) - V(\mathbf{a})]$$
+      <p>This is path-independent — a hallmark of conservative fields.</p>
+
+      <h3>Equipotential Surfaces</h3>
+      <p>Surfaces of constant $V$. They are always perpendicular to field lines. No work is done moving a charge along an equipotential.</p>
+    </section>
+
+    <!-- ========================= POISSON & LAPLACE ========================= -->
+    <section id="poisson">
+      <h2>1.5 Poisson's and Laplace's Equations</h2>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Derivation</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content">
+                <p>Start from Gauss's law in differential form: $\nabla\cdot\mathbf{E} = \frac{\rho}{\varepsilon_0}$</p>
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content">
+                <p>Substitute $\mathbf{E} = -\nabla V$:</p>
+                $$\nabla\cdot(-\nabla V) = \frac{\rho}{\varepsilon_0}$$
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content">
+                <p>This gives <strong>Poisson's equation</strong>:</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 1.6</span>
+        $$\nabla^2 V = -\frac{\rho}{\varepsilon_0}$$
+      </div>
+      <p>In charge-free regions ($\rho = 0$), this reduces to <strong>Laplace's equation</strong>:</p>
+      <div class="equation-box">
+        <span class="eq-label">Eq. 1.7</span>
+        $$\nabla^2 V = 0$$
+      </div>
+      <p>Solutions are determined uniquely by boundary conditions (Dirichlet: $V$ specified; Neumann: $\frac{\partial V}{\partial n}$ specified).</p>
+    </section>
+
+    <!-- ========================= ENERGY ========================= -->
+    <section id="energy">
+      <h2>1.6 Energy Stored in Electric Fields</h2>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Derivation of Energy Density</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content">
+                <p>The energy to assemble $N$ point charges from infinity is:</p>
+                $$W = \frac{1}{2}\sum_{i=1}^{N}q_i V(\mathbf{r}_i)$$
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content">
+                <p>For continuous distributions, $W = \frac{1}{2}\int \rho V\,d\tau$. Using $\rho = \varepsilon_0 \nabla\cdot\mathbf{E}$ and integration by parts:</p>
+                $$W = \frac{\varepsilon_0}{2}\int |\mathbf{E}|^2\,d\tau$$
+              </div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content">
+                <p>The energy density (energy per unit volume) is therefore:</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 1.8</span>
+        $$u_E = \frac{1}{2}\varepsilon_0 E^2$$
+      </div>
+    </section>
+
+    <!-- ========================= MATERIALS ========================= -->
+    <section id="materials">
+      <h2>1.7 Conductors and Dielectrics</h2>
+      <h3>Conductors</h3>
+      <p>In electrostatic equilibrium: $\mathbf{E} = 0$ inside, charge resides on the surface, surface field is $\mathbf{E} = \frac{\sigma}{\varepsilon_0}\hat{\mathbf{n}}$.</p>
+
+      <h3>Dielectrics and Polarization</h3>
+      <p>In a dielectric, an applied field induces dipole moments. The <em>polarization</em> $\mathbf{P}$ (dipole moment per unit volume) gives rise to bound charges:</p>
+      $$\rho_b = -\nabla\cdot\mathbf{P}, \qquad \sigma_b = \mathbf{P}\cdot\hat{\mathbf{n}}$$
+
+      <h3>Displacement Field D</h3>
+      <p>To handle free charges separately, we define:</p>
+      <div class="equation-box">
+        $$\mathbf{D} = \varepsilon_0\mathbf{E} + \mathbf{P}$$
+      </div>
+      <p>For linear dielectrics, $\mathbf{P} = \varepsilon_0\chi_e\mathbf{E}$, so $\mathbf{D} = \varepsilon\mathbf{E}$ where $\varepsilon = \varepsilon_0\varepsilon_r = \varepsilon_0(1 + \chi_e)$.</p>
+      <p>Gauss's law for $\mathbf{D}$: $\nabla\cdot\mathbf{D} = \rho_f$ (free charge only).</p>
+    </section>
+
+    <!-- ========================= CAPACITANCE ========================= -->
+    <section id="capacitance">
+      <h2>1.8 Capacitance</h2>
+      <p>Capacitance is defined as $C = Q/V$ for a system storing charge $Q$ at potential difference $V$.</p>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Parallel Plate Capacitor</button>
+        <div class="collapsible-content">
+          <div class="derivation">
+            <div class="derivation-step">
+              <span class="step-num">1</span>
+              <div class="step-content"><p>Two plates of area $A$ separated by $d$. Using Gauss's law: $E = \sigma/\varepsilon_0 = Q/(\varepsilon_0 A)$.</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">2</span>
+              <div class="step-content"><p>Voltage: $V = Ed = Qd/(\varepsilon_0 A)$.</p></div>
+            </div>
+            <div class="derivation-step">
+              <span class="step-num">3</span>
+              <div class="step-content"><p>Therefore:</p>$$C = \frac{Q}{V} = \frac{\varepsilon_0 A}{d}$$</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Spherical Capacitor</button>
+        <div class="collapsible-content">
+          <p>Inner radius $a$, outer radius $b$, charge $Q$ on inner shell:</p>
+          $$E = \frac{Q}{4\pi\varepsilon_0 r^2}, \qquad V = \frac{Q}{4\pi\varepsilon_0}\left(\frac{1}{a} - \frac{1}{b}\right)$$
+          $$C = \frac{4\pi\varepsilon_0 ab}{b - a}$$
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Cylindrical Capacitor</button>
+        <div class="collapsible-content">
+          <p>Inner radius $a$, outer radius $b$, length $L$:</p>
+          $$E = \frac{\lambda}{2\pi\varepsilon_0 s}, \qquad V = \frac{\lambda}{2\pi\varepsilon_0}\ln\frac{b}{a}$$
+          $$C = \frac{2\pi\varepsilon_0 L}{\ln(b/a)}$$
+        </div>
+      </div>
+
+      <p>The energy stored in a capacitor is $U = \frac{1}{2}CV^2 = \frac{Q^2}{2C}$.</p>
+    </section>
+
+    <!-- ================== SIMULATIONS ================== -->
+    <h2 style="margin-top:3rem;">Interactive Simulations</h2>
+
+    <!-- SIM 1: Coulomb Force -->
+    <section id="sim-coulomb">
+      <div class="sim-container" id="coulomb-sim">
+        <div class="sim-header">
+          <h4>⚡ Coulomb Force Simulator</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-coulomb" aria-label="Coulomb force simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Charge 1 (μC)</label>
+            <input type="range" id="coulomb-q1" min="-10" max="10" value="5" step="0.5">
+            <span class="param-value" id="coulomb-q1-val">+5.0 μC</span>
+          </div>
+          <div class="sim-param">
+            <label>Charge 2 (μC)</label>
+            <input type="range" id="coulomb-q2" min="-10" max="10" value="-3" step="0.5">
+            <span class="param-value" id="coulomb-q2-val">−3.0 μC</span>
+          </div>
+          <div class="sim-param">
+            <label>Force Magnitude</label>
+            <span class="param-value" id="coulomb-force-val">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 2: Field Lines -->
+    <section id="sim-field-lines">
+      <div class="sim-container" id="fieldlines-sim">
+        <div class="sim-header">
+          <h4>🔬 Electric Field Line Visualizer</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm" id="fl-equip-toggle">Equipotentials: OFF</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-fieldlines" aria-label="Electric field lines simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Click to place charges (max 8). Right-click for negative.</label>
+          </div>
+          <div class="sim-param">
+            <label>Charge magnitude</label>
+            <input type="range" id="fl-magnitude" min="1" max="10" value="5" step="1">
+            <span class="param-value" id="fl-mag-val">5</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 3: Gauss's Law -->
+    <section id="sim-gauss">
+      <div class="sim-container" id="gauss-sim">
+        <div class="sim-header">
+          <h4>📐 Gauss's Law Interactive</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-gauss" aria-label="Gauss's law simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Geometry</label>
+            <select id="gauss-geometry">
+              <option value="sphere">Sphere</option>
+              <option value="cylinder">Cylinder</option>
+              <option value="plane">Infinite Plane</option>
+            </select>
+          </div>
+          <div class="sim-param">
+            <label>Enclosed Charge (μC)</label>
+            <input type="range" id="gauss-charge" min="1" max="20" value="10" step="0.5">
+            <span class="param-value" id="gauss-charge-val">10.0 μC</span>
+          </div>
+          <div class="sim-param">
+            <label>Surface Radius</label>
+            <input type="range" id="gauss-radius" min="30" max="120" value="70" step="1">
+          </div>
+          <div class="sim-param">
+            <label>∮ E·dA</label>
+            <span class="param-value" id="gauss-flux-val">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 4: 3D Potential Surface -->
+    <section id="sim-potential">
+      <div class="sim-container" id="potential-sim">
+        <div class="sim-header">
+          <h4>🌐 Potential Surface 3D</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="three-container" id="potential-3d" aria-label="3D electric potential surface"></div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Charge 1 (μC)</label>
+            <input type="range" id="pot-q1" min="-10" max="10" value="5" step="1">
+            <span class="param-value" id="pot-q1-val">+5</span>
+          </div>
+          <div class="sim-param">
+            <label>Charge 2 (μC)</label>
+            <input type="range" id="pot-q2" min="-10" max="10" value="-5" step="1">
+            <span class="param-value" id="pot-q2-val">−5</span>
+          </div>
+          <div class="sim-param">
+            <label>Separation</label>
+            <input type="range" id="pot-sep" min="1" max="5" value="3" step="0.5">
+            <span class="param-value" id="pot-sep-val">3.0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= QUICK REFERENCE ========================= -->
+    <section id="quick-ref">
+      <div class="quick-ref">
+        <h3>📋 Quick Reference — Electrostatics</h3>
+        <div class="quick-ref-grid">
+          <div class="quick-ref-item">
+            <div class="label">Coulomb's Law</div>
+            <div>$\mathbf{F} = \frac{1}{4\pi\varepsilon_0}\frac{q_1 q_2}{r^2}\hat{\mathbf{r}}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Electric Field</div>
+            <div>$\mathbf{E} = -\nabla V = \frac{1}{4\pi\varepsilon_0}\frac{q}{r^2}\hat{\mathbf{r}}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Gauss's Law</div>
+            <div>$\oint\mathbf{E}\cdot d\mathbf{A} = Q_{\text{enc}}/\varepsilon_0$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Poisson's Equation</div>
+            <div>$\nabla^2 V = -\rho/\varepsilon_0$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Energy Density</div>
+            <div>$u_E = \tfrac{1}{2}\varepsilon_0 E^2$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Parallel Plate C</div>
+            <div>$C = \varepsilon_0 A / d$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Displacement Field</div>
+            <div>$\mathbf{D} = \varepsilon_0\mathbf{E} + \mathbf{P}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Potential (point)</div>
+            <div>$V = \frac{1}{4\pi\varepsilon_0}\frac{q}{r}$</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div style="display:flex;justify-content:flex-end;margin:2rem 0;">
+      <a href="../02-magnetostatics/index.html" class="btn btn-primary">Next: Magnetostatics →</a>
+    </div>
+
+    <footer class="site-footer">
+      <p>Electromagnetic Theory — Interactive Textbook</p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../../assets/js/simulations.js"></script>
+  <script src="../../assets/js/nav.js"></script>
+  <script src="sim/coulomb.js"></script>
+  <script src="sim/field-lines.js"></script>
+  <script src="sim/gauss.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    /* Load OrbitControls after Three.js */
+    (function(){
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js';
+      s.onload = function() {
+        var s2 = document.createElement('script');
+        s2.src = 'sim/potential-3d.js';
+        document.body.appendChild(s2);
+      };
+      document.body.appendChild(s);
+    })();
+  </script>
+  <script>
+    /* Hero canvas animation */
+    (function () {
+      var canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      var ctx, W, H;
+      function resize() {
+        var rect = canvas.parentElement.getBoundingClientRect();
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        W = rect.width; H = rect.height;
+        ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+      }
+      resize(); window.addEventListener('resize', resize);
+
+      var charges = [
+        { x: 0.3, y: 0.4, q: 1 },
+        { x: 0.7, y: 0.6, q: -1 }
+      ];
+
+      SimUtils.createLoop(function (dt) {
+        ctx.clearRect(0, 0, W, H);
+        var numLines = 12;
+        charges.forEach(function (ch) {
+          if (ch.q <= 0) return;
+          for (var i = 0; i < numLines; i++) {
+            var angle = (i / numLines) * Math.PI * 2;
+            var px = ch.x * W + 5 * Math.cos(angle);
+            var py = ch.y * H + 5 * Math.sin(angle);
+            ctx.beginPath();
+            ctx.moveTo(px, py);
+            for (var s = 0; s < 200; s++) {
+              var ex = 0, ey = 0;
+              charges.forEach(function (c2) {
+                var dx = px - c2.x * W;
+                var dy = py - c2.y * H;
+                var r2 = dx * dx + dy * dy + 1;
+                var r = Math.sqrt(r2);
+                ex += c2.q * dx / (r2 * r);
+                ey += c2.q * dy / (r2 * r);
+              });
+              var mag = Math.sqrt(ex * ex + ey * ey) + 1e-10;
+              px += 3 * ex / mag;
+              py += 3 * ey / mag;
+              if (px < 0 || px > W || py < 0 || py > H) break;
+              ctx.lineTo(px, py);
+            }
+            ctx.strokeStyle = 'rgba(79,195,247,0.25)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        });
+        // Draw charges
+        charges.forEach(function (ch) {
+          ctx.beginPath();
+          ctx.arc(ch.x * W, ch.y * H, 6, 0, Math.PI * 2);
+          ctx.fillStyle = ch.q > 0 ? '#ef5350' : '#4fc3f7';
+          ctx.fill();
+        });
+      });
+    })();
+
+    /* KaTeX auto-render */
+    document.addEventListener('DOMContentLoaded', function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+</body>
+</html>

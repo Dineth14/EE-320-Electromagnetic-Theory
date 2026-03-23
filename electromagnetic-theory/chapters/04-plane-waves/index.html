@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 4 — Plane Waves | EM Theory</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/math.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script src="../../assets/js/theme.js"></script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div style="display:flex;align-items:center;gap:0.8rem;">
+      <button id="sidebar-toggle" class="btn btn-icon" aria-label="Toggle sidebar">☰</button>
+      <a href="../../index.html" class="logo" aria-label="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        EM Theory
+      </a>
+    </div>
+    <div class="header-controls">
+      <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle theme">☀️</button>
+    </div>
+  </header>
+
+  <nav class="sidebar" role="navigation" aria-label="Chapter navigation">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Chapters</div>
+      <div class="sidebar-nav">
+        <a href="../01-electrostatics/index.html"><span class="chapter-number">1</span> Electrostatics</a>
+        <a href="../02-magnetostatics/index.html"><span class="chapter-number">2</span> Magnetostatics</a>
+        <a href="../03-maxwells-equations/index.html"><span class="chapter-number">3</span> Maxwell's Equations</a>
+        <a href="../04-plane-waves/index.html" class="active"><span class="chapter-number">4</span> Plane Waves</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">On This Page</div>
+      <div class="sidebar-nav">
+        <a href="#solutions">Plane Wave Solutions</a>
+        <a href="#lossless">Lossless Media</a>
+        <a href="#lossy">Lossy Media</a>
+        <a href="#skin-effect">Skin Effect</a>
+        <a href="#polarization">Polarization</a>
+        <a href="#poynting-waves">Poynting for Waves</a>
+        <a href="#normal-incidence">Normal Incidence</a>
+        <a href="#radiation">Radiation Pressure</a>
+        <a href="#sim-wave">Sim: Wave Propagation</a>
+        <a href="#sim-polarization">Sim: Polarization</a>
+        <a href="#sim-skin">Sim: Skin Effect</a>
+        <a href="#sim-incidence">Sim: Normal Incidence</a>
+        <a href="#quick-ref">Quick Reference</a>
+      </div>
+    </div>
+  </nav>
+
+  <aside class="right-toc" aria-label="Table of contents">
+    <div class="right-toc-title">Contents</div>
+    <a href="#solutions">Solutions</a>
+    <a href="#lossless">Lossless</a>
+    <a href="#lossy">Lossy</a>
+    <a href="#skin-effect">Skin Effect</a>
+    <a href="#polarization">Polarization</a>
+    <a href="#poynting-waves">Poynting</a>
+    <a href="#normal-incidence">Incidence</a>
+    <a href="#radiation">Radiation</a>
+    <a href="#sim-wave">Simulations</a>
+    <a href="#quick-ref">Quick Reference</a>
+  </aside>
+
+  <div class="main-content">
+    <div class="chapter-hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-overlay"></div>
+      <div class="hero-text">
+        <h1>Chapter 4 — Plane Waves</h1>
+        <p class="subtitle">Electromagnetic waves in lossless and lossy media, polarization, and interfaces</p>
+      </div>
+    </div>
+
+    <!-- ========================= SOLUTIONS ========================= -->
+    <section id="solutions">
+      <h2>4.1 Uniform Plane Wave Solutions</h2>
+      <p>For a source-free region ($\rho = 0$, $\mathbf{J} = 0$), the wave equation gives solutions of the form:</p>
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 4.1</span>
+        $$\tilde{\mathbf{E}}(z) = E_0\,e^{-\gamma z}\,\hat{\mathbf{x}}, \qquad \tilde{\mathbf{H}}(z) = \frac{E_0}{\eta}\,e^{-\gamma z}\,\hat{\mathbf{y}}$$
+      </div>
+      <p>where $\gamma = \alpha + j\beta$ is the <strong>propagation constant</strong> and $\eta$ is the <strong>intrinsic impedance</strong> of the medium.</p>
+    </section>
+
+    <!-- ========================= LOSSLESS ========================= -->
+    <section id="lossless">
+      <h2>4.2 Lossless Media</h2>
+      <p>In a lossless dielectric ($\sigma = 0$):</p>
+      <div class="equation-box">
+        $$\alpha = 0, \qquad \beta = \omega\sqrt{\mu\varepsilon}, \qquad \eta = \sqrt{\frac{\mu}{\varepsilon}}$$
+      </div>
+      <p>Phase velocity and wavelength:</p>
+      $$v_p = \frac{\omega}{\beta} = \frac{1}{\sqrt{\mu\varepsilon}}, \qquad \lambda = \frac{2\pi}{\beta}$$
+      <p>In free space: $v_p = c$, $\eta_0 = \sqrt{\mu_0/\varepsilon_0} \approx 377\,\Omega$.</p>
+    </section>
+
+    <!-- ========================= LOSSY ========================= -->
+    <section id="lossy">
+      <h2>4.3 Lossy Media</h2>
+      <p>For a medium with conductivity $\sigma$: $\gamma = j\omega\sqrt{\mu\varepsilon_c}$ where $\varepsilon_c = \varepsilon - j\sigma/\omega$.</p>
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> General Expressions for α, β, η</button>
+        <div class="collapsible-content">
+          $$\alpha = \omega\sqrt{\frac{\mu\varepsilon}{2}}\left[\sqrt{1+\left(\frac{\sigma}{\omega\varepsilon}\right)^2} - 1\right]^{1/2}$$
+          $$\beta = \omega\sqrt{\frac{\mu\varepsilon}{2}}\left[\sqrt{1+\left(\frac{\sigma}{\omega\varepsilon}\right)^2} + 1\right]^{1/2}$$
+          $$\eta = \sqrt{\frac{j\omega\mu}{\sigma + j\omega\varepsilon}}$$
+        </div>
+      </div>
+      <p>The wave amplitude decays as $e^{-\alpha z}$ — energy is absorbed by the medium.</p>
+    </section>
+
+    <!-- ========================= SKIN EFFECT ========================= -->
+    <section id="skin-effect">
+      <h2>4.4 Skin Effect</h2>
+      <p>In a good conductor ($\sigma \gg \omega\varepsilon$):</p>
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 4.2</span>
+        $$\delta_s = \frac{1}{\alpha} = \sqrt{\frac{2}{\omega\mu\sigma}}$$
+      </div>
+      <p>The <strong>skin depth</strong> $\delta_s$ is the distance at which field amplitude drops to $1/e$. At high frequencies, currents are confined to a thin surface layer.</p>
+      <p>For good conductors: $\alpha \approx \beta \approx \sqrt{\pi f\mu\sigma}$, $\eta = (1+j)\frac{1}{\sigma\delta_s}$.</p>
+    </section>
+
+    <!-- ========================= POLARIZATION ========================= -->
+    <section id="polarization">
+      <h2>4.5 Polarization</h2>
+      <p>The polarization of a wave describes the trace of the $\mathbf{E}$-field vector tip as a function of time at a fixed point.</p>
+      <div class="equation-box">
+        $$\mathbf{E} = E_{x0}\cos(\omega t - \beta z)\,\hat{\mathbf{x}} + E_{y0}\cos(\omega t - \beta z + \delta)\,\hat{\mathbf{y}}$$
+      </div>
+      <ul>
+        <li><strong>Linear:</strong> $\delta = 0$ or $\pi$ — E traces a line</li>
+        <li><strong>Circular:</strong> $E_{x0} = E_{y0}$, $\delta = \pm\pi/2$ — E traces a circle (RHCP for $-\pi/2$, LHCP for $+\pi/2$)</li>
+        <li><strong>Elliptical:</strong> General case — E traces an ellipse</li>
+      </ul>
+    </section>
+
+    <!-- ========================= POYNTING FOR WAVES ========================= -->
+    <section id="poynting-waves">
+      <h2>4.6 Poynting Vector for Plane Waves</h2>
+      <p>The time-average power density:</p>
+      <div class="equation-box">
+        $$\langle\mathbf{S}\rangle = \frac{1}{2}\text{Re}\{\tilde{\mathbf{E}}\times\tilde{\mathbf{H}}^*\} = \frac{|E_0|^2}{2\eta}\,e^{-2\alpha z}\,\hat{\mathbf{z}}$$
+      </div>
+      <p>In lossless media ($\alpha = 0$): $\langle S\rangle = \frac{E_0^2}{2\eta}$, constant along $z$.</p>
+    </section>
+
+    <!-- ========================= NORMAL INCIDENCE ========================= -->
+    <section id="normal-incidence">
+      <h2>4.7 Normal Incidence at an Interface</h2>
+      <p>A plane wave hits the boundary between two media ($\eta_1$, $\eta_2$) at normal incidence:</p>
+      <div class="equation-box gold">
+        <span class="eq-label">Eq. 4.3</span>
+        $$\Gamma = \frac{\eta_2 - \eta_1}{\eta_2 + \eta_1}, \qquad \tau = \frac{2\eta_2}{\eta_2 + \eta_1}$$
+      </div>
+      <p>$\Gamma$ = reflection coefficient, $\tau$ = transmission coefficient. Conservation: $1 + \Gamma = \tau$.</p>
+
+      <div class="collapsible">
+        <button class="collapsible-toggle" aria-expanded="false"><span class="arrow">▶</span> Standing Wave Ratio</button>
+        <div class="collapsible-content">
+          <p>In medium 1, the total field is a superposition of incident and reflected waves:</p>
+          $$\tilde{E}_1 = E_0(e^{-j\beta_1 z} + \Gamma e^{j\beta_1 z})$$
+          <p>The standing-wave ratio (SWR):</p>
+          $$\text{SWR} = \frac{1 + |\Gamma|}{1 - |\Gamma|}$$
+          <p>SWR = 1 means perfect transmission (no reflection).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= RADIATION PRESSURE ========================= -->
+    <section id="radiation">
+      <h2>4.8 Radiation Pressure</h2>
+      <p>Electromagnetic waves carry momentum. The time-average radiation pressure on a perfect absorber:</p>
+      <div class="equation-box">
+        $$P = \frac{\langle S\rangle}{c}$$
+      </div>
+      <p>For a perfect reflector, the pressure doubles: $P = \frac{2\langle S\rangle}{c}$.</p>
+    </section>
+
+    <!-- ================== SIMULATIONS ================== -->
+    <h2 style="margin-top:3rem;">Interactive Simulations</h2>
+
+    <!-- SIM 1: Wave Propagation -->
+    <section id="sim-wave">
+      <div class="sim-container" id="wave-sim">
+        <div class="sim-header">
+          <h4>🌊 Wave Propagation</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-wave" aria-label="Wave propagation simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Frequency</label>
+            <input type="range" id="wave-freq" min="0.5" max="5" value="2" step="0.1">
+            <span class="param-value" id="wave-freq-val">2.0</span>
+          </div>
+          <div class="sim-param">
+            <label>Loss (α)</label>
+            <input type="range" id="wave-alpha" min="0" max="5" value="0" step="0.1">
+            <span class="param-value" id="wave-alpha-val">0.0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 2: Polarization -->
+    <section id="sim-polarization">
+      <div class="sim-container" id="pol-sim">
+        <div class="sim-header">
+          <h4>🔄 Polarization Visualizer</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-polarization" aria-label="Polarization simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Ex₀</label>
+            <input type="range" id="pol-ex" min="0" max="2" value="1" step="0.05">
+            <span class="param-value" id="pol-ex-val">1.0</span>
+          </div>
+          <div class="sim-param">
+            <label>Ey₀</label>
+            <input type="range" id="pol-ey" min="0" max="2" value="1" step="0.05">
+            <span class="param-value" id="pol-ey-val">1.0</span>
+          </div>
+          <div class="sim-param">
+            <label>Phase δ (deg)</label>
+            <input type="range" id="pol-delta" min="-180" max="180" value="90" step="1">
+            <span class="param-value" id="pol-delta-val">90</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 3: Skin Effect -->
+    <section id="sim-skin">
+      <div class="sim-container" id="skin-sim">
+        <div class="sim-header">
+          <h4>🔥 Skin Effect</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-skin" aria-label="Skin effect simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>Frequency</label>
+            <input type="range" id="skin-freq" min="0.5" max="10" value="3" step="0.1">
+            <span class="param-value" id="skin-freq-val">3.0</span>
+          </div>
+          <div class="sim-param">
+            <label>Conductivity σ</label>
+            <input type="range" id="skin-sigma" min="0.5" max="10" value="5" step="0.1">
+            <span class="param-value" id="skin-sigma-val">5.0</span>
+          </div>
+          <div class="sim-param">
+            <label>Skin Depth δ</label>
+            <span class="param-value" id="skin-delta-val">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIM 4: Normal Incidence -->
+    <section id="sim-incidence">
+      <div class="sim-container" id="incidence-sim">
+        <div class="sim-header">
+          <h4>↔️ Normal Incidence</h4>
+          <div class="sim-controls">
+            <button class="btn btn-sm btn-pause">⏸ Pause</button>
+            <button class="btn btn-sm btn-reset">↺ Reset</button>
+          </div>
+        </div>
+        <div class="sim-canvas-wrap">
+          <canvas id="canvas-incidence" aria-label="Normal incidence simulation"></canvas>
+        </div>
+        <div class="sim-panel">
+          <div class="sim-param">
+            <label>η₂/η₁</label>
+            <input type="range" id="inc-ratio" min="0.1" max="10" value="3" step="0.1">
+            <span class="param-value" id="inc-ratio-val">3.0</span>
+          </div>
+          <div class="sim-param">
+            <label>Γ</label>
+            <span class="param-value" id="inc-gamma-val">—</span>
+          </div>
+          <div class="sim-param">
+            <label>τ</label>
+            <span class="param-value" id="inc-tau-val">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= QUICK REFERENCE ========================= -->
+    <section id="quick-ref">
+      <div class="quick-ref">
+        <h3>📋 Quick Reference — Plane Waves</h3>
+        <div class="quick-ref-grid">
+          <div class="quick-ref-item">
+            <div class="label">Phase Velocity</div>
+            <div>$v_p = \omega/\beta = 1/\sqrt{\mu\varepsilon}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Intrinsic Impedance</div>
+            <div>$\eta = \sqrt{\mu/\varepsilon}$ (lossless)</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Free Space</div>
+            <div>$\eta_0 \approx 377\,\Omega$, $c = 3\times10^8$ m/s</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Skin Depth</div>
+            <div>$\delta_s = \sqrt{2/\omega\mu\sigma}$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Reflection Coeff</div>
+            <div>$\Gamma = (\eta_2 - \eta_1)/(\eta_2 + \eta_1)$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Transmission Coeff</div>
+            <div>$\tau = 2\eta_2/(\eta_2 + \eta_1)$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">SWR</div>
+            <div>$(1+|\Gamma|)/(1-|\Gamma|)$</div>
+          </div>
+          <div class="quick-ref-item">
+            <div class="label">Radiation Pressure</div>
+            <div>$P = \langle S\rangle / c$</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div style="display:flex;justify-content:flex-start;margin:2rem 0;">
+      <a href="../03-maxwells-equations/index.html" class="btn">← Maxwell's Equations</a>
+    </div>
+
+    <footer class="site-footer"><p>Electromagnetic Theory — Interactive Textbook</p></footer>
+  </div>
+
+  <script src="../../assets/js/simulations.js"></script>
+  <script src="../../assets/js/nav.js"></script>
+  <script src="sim/wave-propagation.js"></script>
+  <script src="sim/polarization.js"></script>
+  <script src="sim/skin-effect.js"></script>
+  <script src="sim/normal-incidence.js"></script>
+  <script>
+    /* Hero canvas - traveling wave */
+    (function () {
+      var canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      var ctx, W, H;
+      function resize() {
+        var rect = canvas.parentElement.getBoundingClientRect();
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        W = rect.width; H = rect.height;
+        ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+      }
+      resize(); window.addEventListener('resize', resize);
+
+      SimUtils.createLoop(function () {
+        ctx.clearRect(0, 0, W, H);
+        var t = Date.now() * 0.002;
+        var cy = H / 2;
+        for (var i = 0; i < 3; i++) {
+          ctx.beginPath();
+          var amp = 30 + i * 15;
+          var phase = i * 1.2;
+          for (var x = 0; x < W; x += 2) {
+            var y = cy + amp * Math.sin(x * 0.015 - t + phase);
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.strokeStyle = 'rgba(79,195,247,' + (0.15 + i * 0.1) + ')';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+      });
+    })();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+</body>
+</html>

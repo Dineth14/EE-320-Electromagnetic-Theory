@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electromagnetic Theory — An Interactive Journey</title>
+  <meta name="description" content="A complete, interactive web-based textbook covering Electromagnetic Theory with simulations and derivations.">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/math.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script src="assets/js/theme.js"></script>
+</head>
+<body class="landing-page">
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <a href="index.html" class="logo" aria-label="Home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      EM Theory
+    </a>
+    <div class="header-controls">
+      <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle theme">☀️</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Hero Section with WebGL Background -->
+    <section class="landing-hero" aria-label="Hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at center, transparent 30%, var(--bg-primary) 80%);z-index:1;"></div>
+      <div class="hero-content">
+        <h1>Electromagnetic Theory</h1>
+        <p class="tagline">An Interactive Journey Through Fields, Waves &amp; Maxwell's Equations</p>
+        <a href="#chapters" class="btn btn-primary" style="font-size:1rem;padding:0.8rem 2rem;border-radius:30px;">
+          Begin Exploring ↓
+        </a>
+      </div>
+    </section>
+
+    <!-- Chapter Cards -->
+    <section id="chapters" class="chapters-section" aria-label="Chapters">
+      <div style="text-align:center;padding:3rem 1rem 1rem;">
+        <h2 style="border:none;font-size:2rem;">Chapters</h2>
+        <p style="color:var(--text-muted);max-width:600px;margin:0 auto;">Four comprehensive chapters covering electrostatics through plane waves, each with full derivations and interactive simulations.</p>
+      </div>
+      <div class="chapters-grid">
+        <!-- Chapter 1 -->
+        <a href="chapters/01-electrostatics/index.html" class="chapter-card" id="card-ch1">
+          <div class="card-preview"><canvas id="preview-ch1" aria-hidden="true"></canvas></div>
+          <div class="card-body">
+            <div class="card-number">Chapter 01</div>
+            <div class="card-title">Electrostatics</div>
+            <p class="card-desc">Coulomb's law, electric fields, Gauss's law, potential, capacitance, and energy in electric fields.</p>
+          </div>
+        </a>
+        <!-- Chapter 2 -->
+        <a href="chapters/02-magnetostatics/index.html" class="chapter-card" id="card-ch2">
+          <div class="card-preview"><canvas id="preview-ch2" aria-hidden="true"></canvas></div>
+          <div class="card-body">
+            <div class="card-number">Chapter 02</div>
+            <div class="card-title">Magnetostatics</div>
+            <p class="card-desc">Biot-Savart law, Ampère's law, magnetic dipoles, vector potential, inductance, and magnetic materials.</p>
+          </div>
+        </a>
+        <!-- Chapter 3 -->
+        <a href="chapters/03-maxwells-equations/index.html" class="chapter-card" id="card-ch3">
+          <div class="card-preview"><canvas id="preview-ch3" aria-hidden="true"></canvas></div>
+          <div class="card-body">
+            <div class="card-number">Chapter 03</div>
+            <div class="card-title">Maxwell's Equations</div>
+            <p class="card-desc">All four equations, Faraday's law, displacement current, wave equation derivation, and Poynting's theorem.</p>
+          </div>
+        </a>
+        <!-- Chapter 4 -->
+        <a href="chapters/04-plane-waves/index.html" class="chapter-card" id="card-ch4">
+          <div class="card-preview"><canvas id="preview-ch4" aria-hidden="true"></canvas></div>
+          <div class="card-body">
+            <div class="card-number">Chapter 04</div>
+            <div class="card-title">Plane Waves</div>
+            <p class="card-desc">Wave propagation, polarization, skin effect, reflection, transmission, and radiation pressure.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Maxwell at a Glance -->
+    <section class="maxwell-glance" aria-label="Maxwell's Equations at a Glance">
+      <h2>Key Equations at a Glance</h2>
+      <div class="maxwell-grid">
+        <div class="maxwell-card" tabindex="0" role="button" aria-expanded="false" aria-label="Gauss's Law for Electricity">
+          <div class="eq-name">Gauss's Law (Electric)</div>
+          <div>$$\oint \mathbf{E}\cdot d\mathbf{A} = \frac{Q_{\text{enc}}}{\varepsilon_0} \qquad \nabla\cdot\mathbf{E}=\frac{\rho}{\varepsilon_0}$$</div>
+          <div class="eq-meaning">Electric charges produce electric field lines. The total flux through a closed surface equals the enclosed charge divided by ε₀.</div>
+        </div>
+        <div class="maxwell-card" tabindex="0" role="button" aria-expanded="false" aria-label="Gauss's Law for Magnetism">
+          <div class="eq-name">Gauss's Law (Magnetic)</div>
+          <div>$$\oint \mathbf{B}\cdot d\mathbf{A} = 0 \qquad \nabla\cdot\mathbf{B}=0$$</div>
+          <div class="eq-meaning">There are no magnetic monopoles. Magnetic field lines always form closed loops — the net flux through any closed surface is zero.</div>
+        </div>
+        <div class="maxwell-card" tabindex="0" role="button" aria-expanded="false" aria-label="Faraday's Law">
+          <div class="eq-name">Faraday's Law</div>
+          <div>$$\oint \mathbf{E}\cdot d\mathbf{l} = -\frac{d\Phi_B}{dt} \qquad \nabla\times\mathbf{E}=-\frac{\partial\mathbf{B}}{\partial t}$$</div>
+          <div class="eq-meaning">A changing magnetic field induces an electric field. This is the principle behind transformers, generators, and electromagnetic induction.</div>
+        </div>
+        <div class="maxwell-card" tabindex="0" role="button" aria-expanded="false" aria-label="Ampère–Maxwell Law">
+          <div class="eq-name">Ampère–Maxwell Law</div>
+          <div>$$\oint \mathbf{B}\cdot d\mathbf{l} = \mu_0 I_{\text{enc}} + \mu_0\varepsilon_0\frac{d\Phi_E}{dt} \qquad \nabla\times\mathbf{B}=\mu_0\mathbf{J}+\mu_0\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}$$</div>
+          <div class="eq-meaning">Electric currents and changing electric fields produce magnetic fields. Maxwell's displacement current term completed the symmetry of electromagnetism.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress -->
+    <section class="progress-section" aria-label="Reading Progress">
+      <h2 style="border:none;text-align:center;">Your Progress</h2>
+      <p style="text-align:center;color:var(--text-muted);" id="progress-text">Loading...</p>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>Electromagnetic Theory — An Interactive Textbook &copy; 2025. Built for learning.</p>
+      <p style="margin-top:0.4rem;">References: Griffiths, Hayt &amp; Buck, Sadiku, Cheng</p>
+    </footer>
+  </main>
+
+  <script src="assets/js/simulations.js"></script>
+  <script src="assets/js/nav.js"></script>
+  <script>
+    /* ===== Hero Canvas — Animated E and B field lines ===== */
+    (function () {
+      var canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      var ctx, W, H;
+
+      function resize() {
+        var rect = canvas.parentElement.getBoundingClientRect();
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        W = rect.width;
+        H = rect.height;
+        ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Particles representing field lines
+      var particles = [];
+      var N = 120;
+      for (var i = 0; i < N; i++) {
+        particles.push({
+          x: Math.random() * 2000,
+          y: Math.random() * 1200,
+          vx: (Math.random() - 0.5) * 30,
+          vy: (Math.random() - 0.5) * 30,
+          r: Math.random() * 2 + 1,
+          type: Math.random() > 0.5 ? 0 : 1 // 0=blue, 1=gold
+        });
+      }
+
+      var loop = SimUtils.createLoop(function (dt) {
+        ctx.clearRect(0, 0, W, H);
+
+        // Draw connections
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          // Simple sinusoidal motion
+          p.x += p.vx * dt;
+          p.y += p.vy * dt + Math.sin(p.x * 0.005 + Date.now() * 0.001) * 10 * dt;
+
+          if (p.x < -50) p.x = W + 50;
+          if (p.x > W + 50) p.x = -50;
+          if (p.y < -50) p.y = H + 50;
+          if (p.y > H + 50) p.y = -50;
+
+          // Draw particle
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.type === 0 ? 'rgba(79,195,247,0.6)' : 'rgba(255,213,79,0.4)';
+          ctx.fill();
+
+          // Draw lines to nearby
+          for (var j = i + 1; j < particles.length; j++) {
+            var q = particles[j];
+            var d = SimUtils.dist(p.x, p.y, q.x, q.y);
+            if (d < 150) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              var alpha = (1 - d / 150) * 0.15;
+              ctx.strokeStyle = p.type === 0 ? 'rgba(79,195,247,' + alpha + ')' : 'rgba(255,213,79,' + alpha + ')';
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+      });
+    })();
+
+    /* ===== Chapter Preview Animations ===== */
+    // Ch1 - Electric field lines
+    (function () {
+      var c = document.getElementById('preview-ch1');
+      if (!c) return;
+      var info = SimUtils.initCanvas(c);
+      var ctx = info.ctx, W = info.w, H = info.h;
+      var t = 0;
+      SimUtils.createLoop(function (dt) {
+        t += dt;
+        ctx.clearRect(0, 0, W, H);
+        // Draw radiating field lines from center
+        var cx = W / 2, cy = H / 2;
+        for (var i = 0; i < 16; i++) {
+          var angle = (i / 16) * Math.PI * 2 + t * 0.3;
+          var len = 60 + 15 * Math.sin(t * 2 + i);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(cx + Math.cos(angle) * len, cy + Math.sin(angle) * len);
+          ctx.strokeStyle = 'rgba(79,195,247,0.5)';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          // arrowhead
+          var ax = cx + Math.cos(angle) * len;
+          var ay = cy + Math.sin(angle) * len;
+          ctx.beginPath();
+          ctx.arc(ax, ay, 2, 0, Math.PI * 2);
+          ctx.fillStyle = '#4fc3f7';
+          ctx.fill();
+        }
+        // center charge
+        ctx.beginPath();
+        ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+        ctx.fillStyle = '#ef5350';
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 10px Inter';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('+', cx, cy);
+      });
+    })();
+
+    // Ch2 - Magnetic field circles
+    (function () {
+      var c = document.getElementById('preview-ch2');
+      if (!c) return;
+      var info = SimUtils.initCanvas(c);
+      var ctx = info.ctx, W = info.w, H = info.h;
+      var t = 0;
+      SimUtils.createLoop(function (dt) {
+        t += dt;
+        ctx.clearRect(0, 0, W, H);
+        var cx = W / 2, cy = H / 2;
+        // Current wire (dot coming out)
+        ctx.beginPath();
+        ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffd54f';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx, cy, 2, 0, Math.PI * 2);
+        ctx.fillStyle = '#0a0e1a';
+        ctx.fill();
+        // Circular B field lines
+        for (var r = 20; r < 80; r += 18) {
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(79,195,247,' + (0.5 - r / 200) + ')';
+          ctx.lineWidth = 1.2;
+          ctx.setLineDash([4, 4]);
+          ctx.lineDashOffset = -t * 40;
+          ctx.stroke();
+          ctx.setLineDash([]);
+          // Arrow on circle
+          var a = t * 1.5 + r * 0.1;
+          var ax = cx + r * Math.cos(a);
+          var ay = cy + r * Math.sin(a);
+          ctx.beginPath();
+          ctx.arc(ax, ay, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = '#4fc3f7';
+          ctx.fill();
+        }
+      });
+    })();
+
+    // Ch3 - Wave-like
+    (function () {
+      var c = document.getElementById('preview-ch3');
+      if (!c) return;
+      var info = SimUtils.initCanvas(c);
+      var ctx = info.ctx, W = info.w, H = info.h;
+      var t = 0;
+      SimUtils.createLoop(function (dt) {
+        t += dt;
+        ctx.clearRect(0, 0, W, H);
+        var cy = H / 2;
+        // E field wave (blue)
+        ctx.beginPath();
+        for (var x = 0; x < W; x += 2) {
+          var y = cy + 40 * Math.sin(x * 0.04 - t * 3);
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = '#4fc3f7';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        // B field wave (gold, 90 deg out)
+        ctx.beginPath();
+        for (var x = 0; x < W; x += 2) {
+          var y = cy + 40 * Math.cos(x * 0.04 - t * 3);
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = 'rgba(255,213,79,0.6)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      });
+    })();
+
+    // Ch4 - Plane wave 3D-ish
+    (function () {
+      var c = document.getElementById('preview-ch4');
+      if (!c) return;
+      var info = SimUtils.initCanvas(c);
+      var ctx = info.ctx, W = info.w, H = info.h;
+      var t = 0;
+      SimUtils.createLoop(function (dt) {
+        t += dt;
+        ctx.clearRect(0, 0, W, H);
+        var cy = H / 2;
+        // Propagation direction arrow
+        ctx.beginPath();
+        ctx.moveTo(20, cy);
+        ctx.lineTo(W - 20, cy);
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        // E vectors (vertical)
+        for (var x = 20; x < W - 20; x += 15) {
+          var amp = 40 * Math.sin(x * 0.05 - t * 4);
+          ctx.beginPath();
+          ctx.moveTo(x, cy);
+          ctx.lineTo(x, cy - amp);
+          ctx.strokeStyle = 'rgba(79,195,247,' + (0.3 + 0.4 * Math.abs(amp) / 40) + ')';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+        // B vectors (horizontal from center)
+        for (var x = 20; x < W - 20; x += 15) {
+          var amp = 20 * Math.cos(x * 0.05 - t * 4);
+          ctx.beginPath();
+          ctx.moveTo(x, cy);
+          ctx.lineTo(x + amp * 0.5, cy + amp * 0.3);
+          ctx.strokeStyle = 'rgba(255,213,79,' + (0.2 + 0.3 * Math.abs(amp) / 20) + ')';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+        // Labels
+        ctx.font = '11px Inter';
+        ctx.fillStyle = '#4fc3f7';
+        ctx.fillText('E', 30, cy - 50);
+        ctx.fillStyle = '#ffd54f';
+        ctx.fillText('B', 50, cy + 40);
+      });
+    })();
+
+    /* ===== Progress Bar ===== */
+    (function () {
+      var visited = window.getVisitedChapters ? window.getVisitedChapters() : {};
+      var all = ['01-electrostatics', '02-magnetostatics', '03-maxwells-equations', '04-plane-waves'];
+      var count = 0;
+      all.forEach(function (ch) { if (visited[ch]) count++; });
+      var pct = Math.round((count / all.length) * 100);
+      var fill = document.getElementById('progress-fill');
+      var text = document.getElementById('progress-text');
+      if (fill) fill.style.width = pct + '%';
+      if (text) text.textContent = count + ' of ' + all.length + ' chapters visited (' + pct + '%)';
+    })();
+
+    /* ===== KaTeX Auto-render ===== */
+    document.addEventListener('DOMContentLoaded', function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+</body>
+</html>
