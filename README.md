@@ -1,6 +1,6 @@
 # ⚡ Electromagnetic Theory — Interactive Textbook
 
-[![Deploy to GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-blue?logo=github)](https://pages.github.com/)
+[![Deploy to GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-blue?logo=github)]([https://pages.github.com/](https://dineth14.github.io/EE-320-Electromagnetic-Theory/))
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Pure HTML/CSS/JS](https://img.shields.io/badge/stack-HTML%2FCSS%2FJS-orange)](#)
 
